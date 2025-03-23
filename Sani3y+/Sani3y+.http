@@ -1,0 +1,6 @@
+@Sani3y__HostAddress = http://localhost:5287
+
+GET {{Sani3y__HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

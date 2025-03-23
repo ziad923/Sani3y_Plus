@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Sani3y+.props" />
+</Project>
