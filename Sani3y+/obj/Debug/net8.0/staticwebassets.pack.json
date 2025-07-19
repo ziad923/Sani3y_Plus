@@ -1,88 +1,112 @@
 {
   "Files": [
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\041c8063-7785-40ae-8476-51e7f34796f7_ww2.jpg",
-      "PackagePath": "staticwebassets\\images\\041c8063-7785-40ae-8476-51e7f34796f7_ww2.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\assets\\Frame.png",
+      "PackagePath": "staticwebassets\\assets\\Frame.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\1c062a11-e5ed-4d55-bff7-333f2e6b9f60_3c6744c633fb9012392cb66a755dac0d.jpg",
-      "PackagePath": "staticwebassets\\images\\1c062a11-e5ed-4d55-bff7-333f2e6b9f60_3c6744c633fb9012392cb66a755dac0d.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\assets\\guest avatar.png",
+      "PackagePath": "staticwebassets\\assets\\guest avatar.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\1d3f9329-78fe-4af3-92b1-4b588fa00a37_ed4bc792-6255-41b6-8520-2a5126941177.jfif",
-      "PackagePath": "staticwebassets\\images\\1d3f9329-78fe-4af3-92b1-4b588fa00a37_ed4bc792-6255-41b6-8520-2a5126941177.jfif"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 21.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 21.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\438ffce8-a41f-4f5e-8b11-194ec9df8d9b_ikhfcc.jpg",
-      "PackagePath": "staticwebassets\\images\\438ffce8-a41f-4f5e-8b11-194ec9df8d9b_ikhfcc.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 22.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 22.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\482c1b0d-9565-41a6-8d18-7b3375bcdd88_Sign up Craftman.PNG",
-      "PackagePath": "staticwebassets\\images\\482c1b0d-9565-41a6-8d18-7b3375bcdd88_Sign up Craftman.PNG"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 23.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 23.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\4f3ffea0-5cae-4794-8f75-db0930979c0b_ww.jpg",
-      "PackagePath": "staticwebassets\\images\\4f3ffea0-5cae-4794-8f75-db0930979c0b_ww.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 24.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 24.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\5458d31b-7674-4a98-bc75-266501598269_tara.jpg",
-      "PackagePath": "staticwebassets\\images\\5458d31b-7674-4a98-bc75-266501598269_tara.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 25.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 25.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\5c2853c8-125a-445b-87e9-fb0a5b4f4d29_ed4bc792-6255-41b6-8520-2a5126941177.jfif",
-      "PackagePath": "staticwebassets\\images\\5c2853c8-125a-445b-87e9-fb0a5b4f4d29_ed4bc792-6255-41b6-8520-2a5126941177.jfif"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 26.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 26.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\5e90564b-c5a1-434f-90b4-b922c8b2385d_;,m.jpg",
-      "PackagePath": "staticwebassets\\images\\5e90564b-c5a1-434f-90b4-b922c8b2385d_;,m.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 27.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 27.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\7fbbf097-cf6e-43d5-91fe-5677edca0ac5_Login.PNG",
-      "PackagePath": "staticwebassets\\images\\7fbbf097-cf6e-43d5-91fe-5677edca0ac5_Login.PNG"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 28.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 28.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\85aa26bc-aa29-4025-94c5-b9f7eca60621_;,mn.jpg",
-      "PackagePath": "staticwebassets\\images\\85aa26bc-aa29-4025-94c5-b9f7eca60621_;,mn.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 29.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 29.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\9d670594-96bd-4fd4-81cc-ada44d2cec4b_OK.PNG",
-      "PackagePath": "staticwebassets\\images\\9d670594-96bd-4fd4-81cc-ada44d2cec4b_OK.PNG"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 30.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 30.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\a004b00d-f28b-4f56-afb0-70bb88856642_nm.jpg",
-      "PackagePath": "staticwebassets\\images\\a004b00d-f28b-4f56-afb0-70bb88856642_nm.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 31.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 31.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\abaf57b3-0f9e-4990-9803-e2433935965b_Sign up.PNG",
-      "PackagePath": "staticwebassets\\images\\abaf57b3-0f9e-4990-9803-e2433935965b_Sign up.PNG"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 32.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 32.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\c3fbde7a-6112-4ca0-a4cf-0a0141002652_Ramadan.jpg",
-      "PackagePath": "staticwebassets\\images\\c3fbde7a-6112-4ca0-a4cf-0a0141002652_Ramadan.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 33.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 33.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\d809ed44-de80-4f06-834d-c8cfa772f6cb_دكةةة.jpg",
-      "PackagePath": "staticwebassets\\images\\d809ed44-de80-4f06-834d-c8cfa772f6cb_دكةةة.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 34.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 34.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\dd2561bf-351f-4cb0-98d7-d8e325ea5ecb_3c6744c633fb9012392cb66a755dac0d.jpg",
-      "PackagePath": "staticwebassets\\images\\dd2561bf-351f-4cb0-98d7-d8e325ea5ecb_3c6744c633fb9012392cb66a755dac0d.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 35.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 35.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\e3b25764-91b9-40d1-aee2-e204dad9c81c_Never ff Shirt.PNG",
-      "PackagePath": "staticwebassets\\images\\e3b25764-91b9-40d1-aee2-e204dad9c81c_Never ff Shirt.PNG"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 36.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 36.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\ead8a49a-4bc6-44f6-a378-c2e5c5babaf1_4dfg.jpg",
-      "PackagePath": "staticwebassets\\images\\ead8a49a-4bc6-44f6-a378-c2e5c5babaf1_4dfg.jpg"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 37.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 37.png"
     },
     {
-      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\ec18d60c-bb48-4a21-a2dc-80feb7f7bdd0_lgog.PNG",
-      "PackagePath": "staticwebassets\\images\\ec18d60c-bb48-4a21-a2dc-80feb7f7bdd0_lgog.PNG"
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 38.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 38.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 39.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 39.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 40.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 40.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 41.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 41.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\avatars\\Rectangle 42.png",
+      "PackagePath": "staticwebassets\\avatars\\Rectangle 42.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\images\\a25a9d60-056e-402f-b636-5b68c5fd9667_WIN_20250208_20_06_42_Pro.jpg",
+      "PackagePath": "staticwebassets\\images\\a25a9d60-056e-402f-b636-5b68c5fd9667_WIN_20250208_20_06_42_Pro.jpg"
     },
     {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\malfunction-pictures\\2d9d0788-0a19-4736-b558-c5a65fb08cf5.PNG",
       "PackagePath": "staticwebassets\\malfunction-pictures\\2d9d0788-0a19-4736-b558-c5a65fb08cf5.PNG"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\malfunction-pictures\\332b682c-83da-4def-8d94-f8c92747ad96.PNG",
+      "PackagePath": "staticwebassets\\malfunction-pictures\\332b682c-83da-4def-8d94-f8c92747ad96.PNG"
     },
     {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\malfunction-pictures\\93d3f2b4-ad0a-4846-8b30-59b4951fdc9c.PNG",
@@ -93,12 +117,108 @@
       "PackagePath": "staticwebassets\\malfunction-pictures\\d78c6e8b-bf1c-48eb-a3f1-b87bbf4b9434.PNG"
     },
     {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Brick wall.png",
+      "PackagePath": "staticwebassets\\professions\\Brick wall.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Brickwall.png",
+      "PackagePath": "staticwebassets\\professions\\Brickwall.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Carpenter.png",
+      "PackagePath": "staticwebassets\\professions\\Carpenter.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Ceramics.png",
+      "PackagePath": "staticwebassets\\professions\\Ceramics.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Crane truck.png",
+      "PackagePath": "staticwebassets\\professions\\Crane truck.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Door.png",
+      "PackagePath": "staticwebassets\\professions\\Door.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Drywall.png",
+      "PackagePath": "staticwebassets\\professions\\Drywall.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Lightning.png",
+      "PackagePath": "staticwebassets\\professions\\Lightning.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Marble.png",
+      "PackagePath": "staticwebassets\\professions\\Marble.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Mask.png",
+      "PackagePath": "staticwebassets\\professions\\Mask.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Paint roller.png",
+      "PackagePath": "staticwebassets\\professions\\Paint roller.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Plumbing.png",
+      "PackagePath": "staticwebassets\\professions\\Plumbing.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Saw.png",
+      "PackagePath": "staticwebassets\\professions\\Saw.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Steel-1.png",
+      "PackagePath": "staticwebassets\\professions\\Steel-1.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Steel.png",
+      "PackagePath": "staticwebassets\\professions\\Steel.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Stone.png",
+      "PackagePath": "staticwebassets\\professions\\Stone.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Tiles.png",
+      "PackagePath": "staticwebassets\\professions\\Tiles.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Welding.png",
+      "PackagePath": "staticwebassets\\professions\\Welding.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Window.png",
+      "PackagePath": "staticwebassets\\professions\\Window.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\professions\\Wrench.png",
+      "PackagePath": "staticwebassets\\professions\\Wrench.png"
+    },
+    {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\0a886eaa-d8dc-4c85-be8b-3fb4bdd9551b.png",
       "PackagePath": "staticwebassets\\uploads\\0a886eaa-d8dc-4c85-be8b-3fb4bdd9551b.png"
     },
     {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\0aac2c3b-60f1-4a55-ad7e-866d5728c020.jpg",
+      "PackagePath": "staticwebassets\\uploads\\0aac2c3b-60f1-4a55-ad7e-866d5728c020.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\13ee8fc4-af1f-4b3a-87f2-6a217895f0d6.png",
+      "PackagePath": "staticwebassets\\uploads\\13ee8fc4-af1f-4b3a-87f2-6a217895f0d6.png"
+    },
+    {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\245e846a-d79d-4ddb-a001-2f36158dec78.PNG",
       "PackagePath": "staticwebassets\\uploads\\245e846a-d79d-4ddb-a001-2f36158dec78.PNG"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\2adddc73-f193-4018-a6b6-5ba06e6d36dd.jpg",
+      "PackagePath": "staticwebassets\\uploads\\2adddc73-f193-4018-a6b6-5ba06e6d36dd.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\31f27465-212f-4ab2-9613-72e1e3bc4005_7500-walter-cute-pfpsgg.png",
+      "PackagePath": "staticwebassets\\uploads\\31f27465-212f-4ab2-9613-72e1e3bc4005_7500-walter-cute-pfpsgg.png"
     },
     {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\338f2294-2b26-48d0-9b48-b5f2bf02d649.png",
@@ -109,16 +229,68 @@
       "PackagePath": "staticwebassets\\uploads\\34d5214d-c98e-4a8d-a4ed-61d99920ab66.jfif"
     },
     {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\376a102f-ec63-44fd-9a8b-c94ff004ac3e_ww.jpg",
+      "PackagePath": "staticwebassets\\uploads\\376a102f-ec63-44fd-9a8b-c94ff004ac3e_ww.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\4b2d4b50-9685-4a19-9a92-dfded9b50d5f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\4b2d4b50-9685-4a19-9a92-dfded9b50d5f.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\51f11c66-387a-4a66-9572-37f5f3b132b7.png",
+      "PackagePath": "staticwebassets\\uploads\\51f11c66-387a-4a66-9572-37f5f3b132b7.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\56a13136-7d6b-4913-aad7-adf2b4de1e38.jpg",
+      "PackagePath": "staticwebassets\\uploads\\56a13136-7d6b-4913-aad7-adf2b4de1e38.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\62bbc7ee-4543-4f3a-916d-1737aba32700.jpg",
+      "PackagePath": "staticwebassets\\uploads\\62bbc7ee-4543-4f3a-916d-1737aba32700.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\62da8a42-ce4f-43b3-88a4-a773e931d84b.jpg",
+      "PackagePath": "staticwebassets\\uploads\\62da8a42-ce4f-43b3-88a4-a773e931d84b.jpg"
+    },
+    {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\744421f8-7443-4aed-8abd-f962542fb248.jpg",
       "PackagePath": "staticwebassets\\uploads\\744421f8-7443-4aed-8abd-f962542fb248.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\7951db89-c4c1-4dda-9863-0c1a2ea0b73b_Breach.jpg",
+      "PackagePath": "staticwebassets\\uploads\\7951db89-c4c1-4dda-9863-0c1a2ea0b73b_Breach.jpg"
     },
     {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\8480aa47-e9f8-4e9c-a3e4-3ce4c68de231_دكة بنش.PNG",
       "PackagePath": "staticwebassets\\uploads\\8480aa47-e9f8-4e9c-a3e4-3ce4c68de231_دكة بنش.PNG"
     },
     {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\8c4120f7-04bf-412a-a298-31679a1cc7b7.PNG",
+      "PackagePath": "staticwebassets\\uploads\\8c4120f7-04bf-412a-a298-31679a1cc7b7.PNG"
+    },
+    {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\a0b9a521-abb7-4206-8337-cdb723c6d771.jpg",
       "PackagePath": "staticwebassets\\uploads\\a0b9a521-abb7-4206-8337-cdb723c6d771.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\b4810560-2f93-4a0e-a8ec-08ebe1f8bd65_ww.jpg",
+      "PackagePath": "staticwebassets\\uploads\\b4810560-2f93-4a0e-a8ec-08ebe1f8bd65_ww.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\b4854acc-595d-4e96-94f7-d4834695df2f_image.png",
+      "PackagePath": "staticwebassets\\uploads\\b4854acc-595d-4e96-94f7-d4834695df2f_image.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\b6f2ae4e-4198-4835-9216-414241bac5db.jpg",
+      "PackagePath": "staticwebassets\\uploads\\b6f2ae4e-4198-4835-9216-414241bac5db.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\b95a6837-93c1-4e80-9900-4d2fb86af451.png",
+      "PackagePath": "staticwebassets\\uploads\\b95a6837-93c1-4e80-9900-4d2fb86af451.png"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\bdcd4b7d-88bc-40d8-80fc-adac7e494f5c.png",
+      "PackagePath": "staticwebassets\\uploads\\bdcd4b7d-88bc-40d8-80fc-adac7e494f5c.png"
     },
     {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\d4d09d25-99c7-4532-bb6b-2a4d06cf61a5_دكة 2.PNG",
@@ -135,6 +307,14 @@
     {
       "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\e5174052-2a6a-4190-a87e-37237e6170b3_دكة بنش.PNG",
       "PackagePath": "staticwebassets\\uploads\\e5174052-2a6a-4190-a87e-37237e6170b3_دكة بنش.PNG"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\f54c2788-e1aa-46c3-840b-259dd86845d3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\f54c2788-e1aa-46c3-840b-259dd86845d3.jpg"
+    },
+    {
+      "Id": "G:\\C#.NET\\Projects\\Sani3y+\\Sani3y+\\wwwroot\\uploads\\f9a9e1ed-32be-4139-b8e5-88d06d07251b_Breach.jpg",
+      "PackagePath": "staticwebassets\\uploads\\f9a9e1ed-32be-4139-b8e5-88d06d07251b_Breach.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Sani3y+.Microsoft.AspNetCore.StaticWebAssets.props",

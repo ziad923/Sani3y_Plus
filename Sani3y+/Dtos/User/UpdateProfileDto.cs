@@ -13,6 +13,7 @@ namespace Sani3y_.Dtos.User
         public string? Email { get; set; }
         [Required]
         public string? PhoneNumber {  get; set; }
-       // public string? ProfilePictureUrl { get; set; } // Optional profile picture
+
+        public IFormFile ProfileImage { get; set; }
     }
 }

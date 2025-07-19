@@ -2,6 +2,7 @@
 {
     public class CraftsmanRatingDto
     {
+        public string ProfilePicture { get; set; }
         public string FullName { get; set; }
         public DateTime DateOfRate { get; set; }
         public int RatingByStars { get; set; }

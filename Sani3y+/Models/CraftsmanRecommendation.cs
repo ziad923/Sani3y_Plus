@@ -10,7 +10,7 @@ namespace Sani3y_.Models
         public string Governorate { get; set; }
         public string Location { get; set; }
         public string PhoneNumber { get; set; }
-        public string Profession { get; set; }
+        public int ProfessionId { get; set; }
 
         // Optional Fields
         public string? PreviousWorkDescription { get; set; }
@@ -21,6 +21,8 @@ namespace Sani3y_.Models
         public List<string>? PreviousWorkPicturePaths { get; set; }
         public string UserId { get; set; }
         public AppUser User { get; set; }
+        public Profession Profession { get; set; }
         public RecommendationStatus Status { get; set; } = RecommendationStatus.Pending;
+
     }
 }

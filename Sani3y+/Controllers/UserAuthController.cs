@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using Google.Apis.Auth.OAuth2.Requests;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Sani3y_.Dtos.Account;
+using Sani3y_.Helpers;
 using Sani3y_.Models;
 using Sani3y_.Repositry.Interfaces;
 using Sani3y_.Services;
@@ -29,13 +31,17 @@ namespace Sani3y_.Controllers
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         private readonly ITokenService _tokenService;
+        private readonly IEmailTemplateService _emailTemplateService;
+        private readonly AvatarService _avatarService;
 
         public UserAuthController(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            IConfiguration configuration, 
-            EmailService emailService,
-            ITokenService tokenService)
+            IConfiguration configuration,
+            IEmailService emailService,
+            ITokenService tokenService,
+            IEmailTemplateService emailTemplateService,
+            AvatarService avatarService)
                                         
         {
             _userManager = userManager;
@@ -43,9 +49,9 @@ namespace Sani3y_.Controllers
             _configuration = configuration;
             _emailService = emailService;
             _tokenService = tokenService;
+            _emailTemplateService = emailTemplateService;
+            _avatarService = avatarService;
         }
-
-        // Normal Sign-Up (Email/Password)
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] RegisterDto registerDto)
         {
@@ -54,35 +60,45 @@ namespace Sani3y_.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                // Check if the user already exists
+                
                 var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
                 if (existingUser != null)
                     return BadRequest(new { Message = "Email already exists." });
 
-                // Create a new user
+               
                 var appUser = new AppUser
                 {
                     FirstName = registerDto.FirstName,
                     LastName = registerDto.LastName,
                     Email = registerDto.Email,
-                    UserName = registerDto.Email, // Username is required by Identity
+                    UserName = registerDto.Email,
                     PhoneNumber = registerDto.PhoneNumber,
-                    Role = "User" // Assign a default role
+                    ProfileImagePath = _avatarService.GetRandomAvatarPath(),
+                    Role = "User"
                 };
-                    // its me and her in the morning ya he is big and dumb as a man can come but stronger tha
-                // Create the user in the database
+
                 var createUserResult = await _userManager.CreateAsync(appUser, registerDto.Password);
                 if (!createUserResult.Succeeded)
                     return BadRequest(createUserResult.Errors);
 
-                // Assign the "User" role to the new user
                 var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                 if (!roleResult.Succeeded)
                     return BadRequest(roleResult.Errors);
 
-                // Generate a JWT token for the new user
+               
                 var token = _tokenService.GenerateJwtToken(appUser);
-                return Ok(new { Token = token, Message = "User registered successfully." });
+                var refreshToken = _tokenService.GenerateRefreshToken();
+
+                appUser.RefreshToken = refreshToken;
+                appUser.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // 7 days validity
+                await _userManager.UpdateAsync(appUser);
+
+                return Ok(new TokenResponseDto
+                {
+                    AccessToken = token,
+                    RefreshToken = refreshToken,
+                    Role = appUser.Role
+                });
             }
             catch (Exception ex)
             {
@@ -90,12 +106,55 @@ namespace Sani3y_.Controllers
             }
         }
 
+        // Normal Sign-Up (Email/Password)
+        //[HttpPost("signup")]
+        //public async Task<IActionResult> SignUp([FromBody] RegisterDto registerDto)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //            return BadRequest(ModelState);
+
+        //        // Check if the user already exists
+        //        var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
+        //        if (existingUser != null)
+        //            return BadRequest(new { Message = "Email already exists." });
+
+        //        // Create a new user
+        //        var appUser = new AppUser
+        //        {
+        //            FirstName = registerDto.FirstName,
+        //            LastName = registerDto.LastName,
+        //            Email = registerDto.Email,
+        //            UserName = registerDto.Email,
+        //            PhoneNumber = registerDto.PhoneNumber,
+        //            ProfileImagePath = _avatarService.GetRandomAvatarPath(),
+        //            Role = "User" 
+        //        };
+
+        //        var createUserResult = await _userManager.CreateAsync(appUser, registerDto.Password);
+        //        if (!createUserResult.Succeeded)
+        //            return BadRequest(createUserResult.Errors);
+
+        //        var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+        //        if (!roleResult.Succeeded)
+        //            return BadRequest(roleResult.Errors);
+
+        //        var token = _tokenService.GenerateJwtToken(appUser);
+        //        return Ok(new { Token = token, Message = "User registered successfully." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
+        //    }
+        //}
+
         [HttpPost("google-signin")]
-        public async Task<IActionResult> GoogleSignIn([FromBody] GoogleLoginRequest request)
+        public async Task<IActionResult> SignInWithGoogle([FromBody] GoogleLoginRequest request)
         {
             try
             {
-                // Validate the Google ID Token
+                
                 var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, new GoogleJsonWebSignature.ValidationSettings
                 {
                     Audience = new[] { _configuration["Authentication:Google:ClientId"] }
@@ -104,11 +163,11 @@ namespace Sani3y_.Controllers
                 if (payload == null)
                     return BadRequest("Invalid Google Token");
 
-                // Check if user already exists
+              
                 var existingUser = await _userManager.FindByEmailAsync(payload.Email);
                 if (existingUser == null)
                 {
-                    // Create a new user
+                   
                     var newUser = new AppUser
                     {
                         UserName = payload.Email,
@@ -124,20 +183,28 @@ namespace Sani3y_.Controllers
 
                     existingUser = newUser;
                 }
-
-                // Generate JWT token for the user
+   
                 var token = _tokenService.GenerateJwtToken(existingUser);
+                var refreshToken = _tokenService.GenerateRefreshToken();
 
-                return Ok(new { Token = token, Message = "User logged in successfully." });
+                existingUser.RefreshToken = refreshToken;
+                existingUser.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                await _userManager.UpdateAsync(existingUser);
+
+                return Ok(new TokenResponseDto
+                {
+                    AccessToken = token,
+                    RefreshToken = refreshToken,
+                    Role = existingUser.Role
+                });
             }
             catch (Exception ex)
             {
                 return BadRequest(new { Message = "Google authentication failed.", Error = ex.Message });
             }
         }
-        // Normla Log in
-        [HttpPost("signin-Normal")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        [HttpPost("signin-normal")]
+        public async Task<IActionResult> SignInNormal([FromBody] LoginDto loginDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -159,16 +226,59 @@ namespace Sani3y_.Controllers
 
             // Generate JWT Token
             var roles = await _userManager.GetRolesAsync(user);
+            var userRole = roles.FirstOrDefault() ?? "User";
             var token = _tokenService.GenerateJwtToken(user);
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
-            return Ok(new
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+            await _userManager.UpdateAsync(user);
+
+            return Ok(new TokenResponseDto
             {
-                Token = token,
-                Role = roles,
-                Message = "Login successful"
+                AccessToken = token,
+                RefreshToken = refreshToken,
+                Role = roles.FirstOrDefault() ?? "User"
             });
         }
-        // Forgot Password Endpoint
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RequestRefreshToken request)
+        {
+            try
+            {
+                var tokens = await _tokenService.RefreshTokenAsync(request.AccessToken, request.RefreshToken);
+                return Ok(tokens);
+            }
+            catch (SecurityTokenException ex)
+            {
+                return Unauthorized(new { Message = ex.Message });
+            }
+        }
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId))
+                    return Unauthorized("Invalid user");
+
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                    return NotFound("User not found");
+
+                user.RefreshToken = null;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddSeconds(-1); // Force immediate expiry
+                await _userManager.UpdateAsync(user);
+
+                return Ok(new { Message = "Logged out successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred during logout");
+            }
+        }
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
         {
@@ -179,18 +289,16 @@ namespace Sani3y_.Controllers
 
                 var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
                 if (user == null)
-                    return BadRequest(new { Message = "User not found." });
+                    return BadRequest(new { Message = "If the email exists, a reset link has been sent." });
 
-                // Generate a password reset token (this is the part we would use later for actual password reset)
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                 var encodedToken = Uri.EscapeDataString(token);
                 var encodedEmail = Uri.EscapeDataString(forgotPasswordDto.Email);
                 // Generate a password reset URL (this could be a frontend URL for users to reset the password)
                 var resetUrl = $"{_configuration["App:FrontendUrl"]}/reset-password?token={encodedToken}&email={encodedEmail}";
-                // Send the reset URL to the user's email
-                var subject = "Password Reset Request";
-                var body = $"<p>To reset your password, please click the following link:</p><a href='{resetUrl}'>Reset Password</a>";
+
+                var (subject, body) = _emailTemplateService.GetResetPasswordEmail(resetUrl);
                 await _emailService.SendEmailAsync(forgotPasswordDto.Email, subject, body);
 
                 return Ok(new { Message = "Password reset email sent." });

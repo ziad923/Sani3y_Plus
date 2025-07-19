@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sani3y+")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8df11a18b0d40df8903db4374caaeb814a7c5b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sani3y+")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sani3y+")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

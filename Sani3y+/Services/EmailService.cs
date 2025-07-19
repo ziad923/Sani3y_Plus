@@ -19,7 +19,10 @@ namespace Sani3y_.Services
             var emailSettings = _configuration.GetSection("EmailSettings");
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress(emailSettings["FromEmail"], emailSettings["FromEmail"]));
+            emailMessage.From.Add(new MailboxAddress(
+             emailSettings["FromName"],   // Display name (e.g., "Sanal3y plus")
+            emailSettings["FromEmail"]   // Email address (e.g., "help@sanal3yplus.com")
+  ));
             emailMessage.To.Add(new MailboxAddress(email, email));
             emailMessage.Subject = subject;
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sani3y_.Data;
+using Sani3y_.Dtos.Admin;
 using Sani3y_.Dtos.Craftman;
 using Sani3y_.Dtos.ServiceRequest;
 using Sani3y_.Dtos.User;
@@ -20,22 +21,6 @@ namespace Sani3y_.Repositry
             _context = context;
             _userManager = userManager;
             _env = env;
-        }
-        public async Task<List<GetAllRequestsUser>> GetAllUserRequestsAsync(string userId)
-        {
-            var userRequests = await _context.ServiceRequests
-                             .Where(sr => sr.UserId == userId)
-                            .Select(sr => new GetAllRequestsUser
-                            {
-                                RequestNumber = sr.RequestNumber,
-                                CraftsmanProfession = sr.Craftsman.Profession,
-                                CraftsmanFullName = sr.Craftsman.FirstName + " " + sr.Craftsman.LastName,
-                                ServiceDescription = sr.ServiceDescription,
-                                OrderDate = sr.RequestDate,
-                                OrderStatus = sr.Status
-                            })
-                            .ToListAsync();
-            return userRequests;
         }
         public async Task<RatingResponseDto> AddRatingAsync(string craftsmanId, string userId, UserRatingDto ratingDto)
         {
@@ -58,75 +43,7 @@ namespace Sani3y_.Repositry
                 Description = rating.Description,
                 CreatedAt = DateTime.UtcNow
             };
-        }
-
-       
-        public async Task<UserProfileDto> GetUserProfileAsync(string userId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                throw new Exception("User not found.");
-            }
-
-            return new UserProfileDto
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            };
-        }
-
-        public async Task<List<UserRatingResponseDto>> GetUserRatingsAsync(string userId)
-        {
-            return await _context.Ratings
-        .Where(r => r.UserId == userId)
-        .Select(r => new UserRatingResponseDto
-        {
-           CraftsmanFullName  = r.Craftsman.FirstName + " " + r.Craftsman.LastName, // Combine First & Last Name
-            CraftsmanProfession = r.Craftsman.Profession,
-            Stars = r.Stars,
-            Description = r.Description,
-            CreatedAt = r.CreatedAt
-        })
-        .ToListAsync();
-        }
-
-        public async Task<bool> UpdateUserProfileAsync(string userId, UpdateProfileDto updateProfileDto)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                throw new Exception("User not found.");
-            }
-
-            // Update only the modified fields
-            if (!string.IsNullOrEmpty(updateProfileDto.FirstName))
-            {
-                user.FirstName = updateProfileDto.FirstName;
-            }
-
-            if (!string.IsNullOrEmpty(updateProfileDto.LastName))
-            {
-                user.LastName = updateProfileDto.LastName;
-            }
-
-            if (!string.IsNullOrEmpty(updateProfileDto.Email))
-            {
-                user.Email = updateProfileDto.Email;
-                user.UserName = updateProfileDto.Email; // Update UserName if it's tied to Email
-            }
-
-            if (!string.IsNullOrEmpty(updateProfileDto.PhoneNumber))
-            {
-                user.PhoneNumber = updateProfileDto.PhoneNumber;
-            }
-
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
+        } // g
 
         public async Task<ServiceResponseDto> CreateServiceRequestAsync(string userId, ServiceRequestDto dto)
         {
@@ -166,33 +83,7 @@ namespace Sani3y_.Repositry
                 RequestNumber = requestNumber
             };
 
-        }
-
-        public async Task<bool> AddRatingAsync(string requestId, int score, string? feedback)
-        {
-            var serviceRequest = await _context.ServiceRequests
-           .Include(sr => sr.Rating)
-           .Include(a => a.Craftsman)
-           .Include(s => s.User)
-           .FirstOrDefaultAsync(sr => sr.RequestNumber == requestId && sr.Status == OrderStatus.Completed); // Ensure consistent naming
-
-            if (serviceRequest == null) return false;
-
-            var rating = new Rating
-            {
-                Stars = score,
-                Description = feedback,
-                ServiceRequestId = serviceRequest.Id,
-                CraftsmanId = serviceRequest.Craftsman.Id,
-                UserId = serviceRequest.User.Id
-            };
-
-            _context.Ratings.Add(rating);
-            serviceRequest.Rating = rating; // Use navigation property
-
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        } // g
 
         public async Task<bool> EditServiceRequestAsync(string requestId, string userId, ServiceRequestDto dto)
         {
@@ -207,7 +98,7 @@ namespace Sani3y_.Repositry
 
             await _context.SaveChangesAsync();
             return true;
-        }
+        } // g
 
         public async Task<bool> CancelServiceRequestAsync(string requestId, string userId)
         {
@@ -217,7 +108,7 @@ namespace Sani3y_.Repositry
             _context.ServiceRequests.Remove(request);
             await _context.SaveChangesAsync();
             return true;
-        }
+        } // g
 
         public async Task<bool> MarkRequestAsCompleteAsync(string requestId, string userId)
         {
@@ -225,10 +116,10 @@ namespace Sani3y_.Repositry
             if (request == null || request.Status != OrderStatus.UnderImplementation) return false;
 
             request.Status = OrderStatus.Completed;
-            request.CompletedDate = DateTime.UtcNow.Date;
+            request.CompletedDate = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return true;
-        }
+        } // g
 
         public async Task<List<CraftsmanPreviousWorkDto>> GetCraftsmanPreviousWorkAsync(string craftsmanId)
         {
@@ -243,13 +134,14 @@ namespace Sani3y_.Repositry
                 })
                 .ToListAsync();
             return previousWorks;
-        }
+        } // g
 
         public async Task<CraftsmanRatingsResponseDto> GetCraftsmanRatingsAsync(string craftsmanId)
         {
             var ratings = await _context.Ratings
                         .Where(r => r.CraftsmanId == craftsmanId)
-                        .Include(r => r.User)  // Assuming 'User' is the navigation property for the user who rated
+                        .Include(r => r.User)
+                        .Include(c => c.Craftsman)// Assuming 'User' is the navigation property for the user who rated
                         .ToListAsync();
 
             if (!ratings.Any())
@@ -265,42 +157,166 @@ namespace Sani3y_.Repositry
 
             var ratingsDto = ratings.Select(r => new CraftsmanRatingDto
             {
+                ProfilePicture = r.User.ProfileImagePath,
                 FullName = $"{r.User.FirstName} {r.User.LastName}",
                 DateOfRate = r.CreatedAt,
                 RatingByStars = r.Stars,
                 RatingDescription = r.Description
             }).ToList();
 
+            // Compute rating distribution
+            var totalRatings = ratings.Count;
+            var distribution = ratings
+                .GroupBy(r => r.Stars)
+                .Select(g => new RatingDistributionDto
+                {
+                    Stars = g.Key,
+                    Percentage = Math.Round((double)g.Count() / totalRatings * 100, 2)
+                })
+                .ToList();
+
+            // Ensure all 1 to 5 are present (even if 0%)
+            for (int i = 1; i <= 5; i++)
+            {
+                if (!distribution.Any(d => d.Stars == i))
+                {
+                    distribution.Add(new RatingDistributionDto
+                    {
+                        Stars = i,
+                        Percentage = 0
+                    });
+                }
+            }
+
+            // Sort by Stars descending to match your frontend order
+            distribution = distribution.OrderByDescending(d => d.Stars).ToList();
             return new CraftsmanRatingsResponseDto
             {
                 AverageRating = Math.Round(averageRating, 2),
-                Ratings = ratingsDto
+                RatingDistribution = distribution,
+                Ratings = ratingsDto 
+            };
+        } // g
+
+        public async Task<ServiceRequest?> GetServiceRequestByIdAsync(string requestId)
+        {
+            return await _context.ServiceRequests.FindAsync(requestId);
+        }
+
+        public async Task<List<GetAllRequestsUser>> GetAllRequestsAsync(string userId)
+        {
+            var userRequests = await _context.ServiceRequests
+                           .Where(sr => sr.UserId == userId)
+                           .Include(x => x.Craftsman)
+                           .ThenInclude(c => c.Profession)
+                          .Select(sr => new GetAllRequestsUser
+                          {
+                              Id = sr.Id,
+                              RequestNumber = sr.RequestNumber,
+                              CraftsmanProfession = sr.Craftsman.Profession.Name,
+                              CraftsmanFullName = sr.Craftsman.FirstName + " " + sr.Craftsman.LastName,
+                              ServiceDescription = sr.ServiceDescription,
+                              OrderDate = sr.RequestDate,
+                              OrderStatus = sr.Status
+                          })
+                          .ToListAsync();
+            return userRequests;
+        } //g
+
+        public async Task<List<UserListDto>> GetAllUsersAsync()
+        {
+            return await _context.Users
+                  .Where(u => u.Role == "User")
+                  .Select(u => new UserListDto
+                  {
+                      Id = u.Id,
+                      FullName = u.FirstName + " " + u.LastName,
+                      ProfileImage = u.ProfileImagePath,
+                      Email = u.Email,
+                      PhoneNumer = u.PhoneNumber
+                  }).ToListAsync();
+        }
+
+        public async Task<List<CraftsmanListDto>> GetAllCraftsmenAsync()
+        {
+            return await _context.Users
+                .Where(u => u.Role == "Craftsman")
+                .Include(u => u.Profession)
+                .Include(u => u.Ratings)
+                .Select(u => new CraftsmanListDto
+                {
+                    Id = u.Id,
+                    FullName = u.FirstName + " " + u.LastName,
+                    Email = u.Email,
+                    PhoneNumer = u.PhoneNumber,
+                    ProfileImage = u.ProfileImagePath,
+                    Governorate = u.Governorate,
+                    Location = u.Location,
+                    CardImagePath = u.CardImagePath,
+                    IsTrusted = u.IsTrusted,
+                    Profession = u.Profession.Name,
+                    AverageRating = _context.Ratings
+                                        .Where(r => r.CraftsmanId == u.Id)
+                                        .Any() ? _context.Ratings
+                                        .Where(r => r.CraftsmanId == u.Id)
+                                        .Average(r => r.Stars) : 0
+                }).ToListAsync();
+        }
+
+        public async Task<bool> DeleteUserAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return false;
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<CraftsmanCardDto> GetCraftsmanProfileByIdAsync(string craftsmanId)
+        {
+            var craftsman = await _context.Users
+                .Include(u => u.Profession)
+                .FirstOrDefaultAsync(u => u.Id == craftsmanId && u.Role == "Craftsman");
+
+            if (craftsman == null) return null;
+
+            // Get ratings FROM the Ratings table WHERE this craftsman is rated
+            var ratings = await _context.Ratings
+                                .Where(r => r.CraftsmanId == craftsmanId)
+                                .ToListAsync();
+
+            double averageRating = 0;
+
+            if (ratings.Any())
+            {
+                averageRating = Math.Round(ratings.Average(r => r.Stars), 2);
+            }
+
+            return new CraftsmanCardDto
+            {
+                ProfilePicture = craftsman.ProfileImagePath,
+                FullName = $"{craftsman.FirstName} {craftsman.LastName}",
+                Profession = craftsman.Profession?.Name,
+                Governorate = craftsman.Governorate,
+                Location = craftsman.Location,
+                AverageRating = averageRating,
+                isTrusted = craftsman.IsTrusted
             };
         }
 
-        public async Task<List<CraftsmanRecommendation>> GetAllPendingRecommendationsAsync()
-        {
-            return await _context.CraftsmanRecommendations
-            .Where(r => r.Status == RecommendationStatus.Pending)
-            .ToListAsync();
-        }
 
-        public async Task<CraftsmanRecommendation?> GetRecommendationByIdAsync(int id)
-        {
-            return await _context.CraftsmanRecommendations.FindAsync(id);
-        }
+        //public async Task AddServiceRequestAsync(ServiceRequest request)
+        //{
+        //    _context.ServiceRequests.Add(request);
+        //    await _context.SaveChangesAsync();
+        //}
 
-        public async Task AddRecommendationAsync(CraftsmanRecommendation recommendation)
-        {
-            _context.CraftsmanRecommendations.Add(recommendation);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateRecommendationAsync(CraftsmanRecommendation recommendation)
-        {
-            _context.CraftsmanRecommendations.Update(recommendation);
-            await _context.SaveChangesAsync();
-        }
+        //public async Task<bool> UpdateServiceRequestAsync(ServiceRequest request)
+        //{
+        //    _context.ServiceRequests.Update(request);
+        //    return await _context.SaveChangesAsync() > 0;
+        //}
     }
-    
+
 }

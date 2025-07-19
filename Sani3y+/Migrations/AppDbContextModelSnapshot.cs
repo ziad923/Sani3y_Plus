@@ -154,6 +154,13 @@ namespace Sani3y_.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "7ab3d2a4-b6ae-480e-80e2-5b97c54e5f33",
+                            RoleId = "Adminn"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -184,7 +191,6 @@ namespace Sani3y_.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CardImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -243,13 +249,17 @@ namespace Sani3y_.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Profession")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ProfessionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProfileImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -275,7 +285,34 @@ namespace Sani3y_.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("ProfessionId");
+
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7ab3d2a4-b6ae-480e-80e2-5b97c54e5f33",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "98212b0c-77d1-4bb4-9293-e307ff6718d6",
+                            Email = "admin@sanai3yplus.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            Governorate = "",
+                            LastName = "User",
+                            Location = "",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ADMIN@SANAI3YPLUS.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJfhTswhLI5PHIqSW0TEObECD0w5YUBpybAois77tfo+ANCAiCxsXoCymyuOopZ6fA==",
+                            PhoneNumberConfirmed = false,
+                            RefreshToken = "zQg3XUt1Rf0pdQP0TIW5XvySUIxmb339ZDOx0Q69OiI=",
+                            RefreshTokenExpiryTime = new DateTime(2025, 5, 22, 9, 56, 56, 993, DateTimeKind.Utc).AddTicks(8356),
+                            Role = "Admin",
+                            SecurityStamp = "RKVK74DEVATHOYBU7MWSMQM2I6R2EAJE",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@example.com"
+                        });
                 });
 
             modelBuilder.Entity("Sani3y_.Models.ContactUs", b =>
@@ -289,6 +326,9 @@ namespace Sani3y_.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("MessageContent")
                         .IsRequired()
@@ -307,10 +347,18 @@ namespace Sani3y_.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<DateTime?>("ResolvedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ContactMessages");
                 });
@@ -355,9 +403,8 @@ namespace Sani3y_.Migrations
                     b.PrimitiveCollection<string>("PreviousWorkPicturePaths")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Profession")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProfessionId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -368,9 +415,42 @@ namespace Sani3y_.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProfessionId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("CraftsmanRecommendations");
+                });
+
+            modelBuilder.Entity("Sani3y_.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Sani3y_.Models.PreviousWork", b =>
@@ -401,6 +481,148 @@ namespace Sani3y_.Migrations
                     b.HasIndex("CraftsmanId");
 
                     b.ToTable("PreviousWorks");
+                });
+
+            modelBuilder.Entity("Sani3y_.Models.Profession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Professions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImagePath = "/professions/Lightning.png",
+                            Name = "كهربائي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImagePath = "/professions/Plumbing.png",
+                            Name = "سبّــاك"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImagePath = "/professions/Paint roller.png",
+                            Name = "نقاش"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ImagePath = "/professions/Saw.png",
+                            Name = "نجار موبيليا"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ImagePath = "/professions/Carpenter.png",
+                            Name = "نــجــار مـســلّح"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ImagePath = "/professions/Door.png",
+                            Name = "نجار باب وشباك"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ImagePath = "/professions/Mask.png",
+                            Name = "حــــدّاد كـريـتال"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ImagePath = "/professions/Steel.png",
+                            Name = "حــــدّاد مـســلّح"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ImagePath = "/professions/Brickwall.png",
+                            Name = "بــنّــــاء"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ImagePath = "/professions/Brick wall.png",
+                            Name = "مُــبيّـض مــحــارة"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ImagePath = "/professions/Ceramics.png",
+                            Name = "مُــبلّــط ســيرامــيك"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ImagePath = "/professions/Marble.png",
+                            Name = "مُــبلّــط رخـــــام"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ImagePath = "/professions/Tiles.png",
+                            Name = "إنــترلـــوك"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ImagePath = "/professions/Stone.png",
+                            Name = "حجر فرعوني"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ImagePath = "/professions/Steel-1.png",
+                            Name = "ونش بناء"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ImagePath = "/professions/Wrench.png",
+                            Name = "فني تركيبات"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ImagePath = "/professions/Welding.png",
+                            Name = "لـــحّـــام"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            ImagePath = "/professions/Crane truck.png",
+                            Name = "رافــعـة أثـــاث"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            ImagePath = "/professions/Window.png",
+                            Name = "ألــومــيتــال"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            ImagePath = "/professions/Drywall.png",
+                            Name = "جبسن بورد"
+                        });
                 });
 
             modelBuilder.Entity("Sani3y_.Models.Rating", b =>
@@ -509,6 +731,40 @@ namespace Sani3y_.Migrations
                     b.ToTable("ServiceRequests");
                 });
 
+            modelBuilder.Entity("Sani3y_.Models.VerificationRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CardImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CraftsmanId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRejected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ProfileImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CraftsmanId");
+
+                    b.ToTable("VerificationRequests");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -560,13 +816,39 @@ namespace Sani3y_.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Sani3y_.Models.AppUser", b =>
+                {
+                    b.HasOne("Sani3y_.Models.Profession", "Profession")
+                        .WithMany("Craftsmen")
+                        .HasForeignKey("ProfessionId");
+
+                    b.Navigation("Profession");
+                });
+
+            modelBuilder.Entity("Sani3y_.Models.ContactUs", b =>
+                {
+                    b.HasOne("Sani3y_.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Sani3y_.Models.CraftsmanRecommendation", b =>
                 {
+                    b.HasOne("Sani3y_.Models.Profession", "Profession")
+                        .WithMany()
+                        .HasForeignKey("ProfessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Sani3y_.Models.AppUser", "User")
                         .WithMany("RecommendedCraftsmen")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Profession");
 
                     b.Navigation("User");
                 });
@@ -627,6 +909,17 @@ namespace Sani3y_.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Sani3y_.Models.VerificationRequest", b =>
+                {
+                    b.HasOne("Sani3y_.Models.AppUser", "Craftsman")
+                        .WithMany()
+                        .HasForeignKey("CraftsmanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Craftsman");
+                });
+
             modelBuilder.Entity("Sani3y_.Models.AppUser", b =>
                 {
                     b.Navigation("PreviousWorks");
@@ -636,6 +929,11 @@ namespace Sani3y_.Migrations
                     b.Navigation("RecommendedCraftsmen");
 
                     b.Navigation("Requests");
+                });
+
+            modelBuilder.Entity("Sani3y_.Models.Profession", b =>
+                {
+                    b.Navigation("Craftsmen");
                 });
 
             modelBuilder.Entity("Sani3y_.Models.ServiceRequest", b =>

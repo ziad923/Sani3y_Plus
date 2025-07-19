@@ -1,4 +1,5 @@
-
+using AspNetCoreRateLimit;
+using Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,24 +8,26 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sani3y_.Data;
+using Sani3y_.Helpers;
+using Sani3y_.Hubs;
+using Sani3y_.Middleware;
 using Sani3y_.Models;
 using Sani3y_.Repositry;
 using Sani3y_.Repositry.Interfaces;
 using Sani3y_.Services;
 using System.Text;
-
 namespace Sani3y_
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             // For testing
@@ -59,17 +62,18 @@ namespace Sani3y_
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            // Get the correct connection string based on the environment
+            var connectionString = builder.Configuration.GetConnectionString("constr");
             builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("constr"));
-            });
+                options.UseSqlServer(connectionString));
+
             builder.Services.AddIdentity<AppUser, IdentityRole>(options =>   // adding roles to the email
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequiredLength = 12;
+                options.Password.RequiredLength = 10; // publish for changing htis 
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             builder.Services.AddAuthentication(options =>
             {
@@ -88,57 +92,83 @@ namespace Sani3y_
                     ValidateAudience = true,
                     ValidAudience = builder.Configuration["JWT:Audience"],
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigninKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigninKey"])),
+                    ValidateLifetime = true, // changes 
+                    ClockSkew = TimeSpan.Zero
                 };
-            });
-           builder.Services.AddTransient<EmailService>();
-            // Add Google Authentication
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = GoogleDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
-            .AddGoogle(options =>
+            }).AddGoogle(options =>
             {
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-                options.CallbackPath = new PathString("/api/User/google-response");
-
             });
-            builder.Services.AddScoped<IEmailService, EmailService>();
-            //Add Cors
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", policy =>
+            builder.Services.AddTransient<EmailService>();
+            builder.Services.AddHttpClient<IAiIntegrationService, AiIntegrationService>(client =>
                 {
-                    policy.AllowAnyOrigin()  // Allow requests from any frontend
-                          .AllowAnyMethod()  // Allow GET, POST, PUT, DELETE, etc.
-                          .AllowAnyHeader(); // Allow all headers
+                    client.BaseAddress = new Uri("http://62.72.16.178:8000");
                 });
-            });
+            builder.Services.AddSingleton<AvatarService>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
             builder.Services.AddScoped<ITokenService, TokenServies>();
-            builder.Services.AddScoped<ICraftsmanRepo, CraftsmanRepo>();
+            builder.Services.AddScoped<ICraftsmanQueryRepo, CraftsmanQueryRepo>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            builder.Services.AddScoped<IUserRatingRepository, UserRatingRepository>();
             builder.Services.AddScoped<IServiceRequestService, ServiceRequestService>();
             builder.Services.AddScoped<ICraftsmanRecommendationService, CraftsmanRecommendationService>();
-            var app = builder.Build();
+            builder.Services.AddScoped<IRecommendationRepository, RecommendationRepository>();
+            builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<ICraftsmanWorkRepo, CraftsmanWorkRepo>();
+            builder.Services.AddScoped<ICraftsmanOrdersRepo, CraftsmanOrdersRepo>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<IProfessionRepo, ProfessionRepository>();
+            builder.Services.AddScoped<IContactMessageRepo, ContactMessageRepo>();
+            builder.Services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddScoped<IHomeService, HomeService>();
+            builder.Services.AddScoped<IVerificationService, VerificationService>();
+            builder.Services.AddScoped<IAdminRatingRepo, AdminRatingRepo>();
+            //Add Cors
+            // AllowAll : Policy Name 
+            // Edit this later 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000")   
+                             .AllowAnyMethod()   
+                              .AllowAnyHeader()
+                              .AllowCredentials();
+                    });
+            });
+            builder.Services.AddSignalR();
+            builder.Configuration.AddJsonFile("rateLimitSettings.json", optional: false, reloadOnChange: true);
+            builder.Services.AddMemoryCache();
+            builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+            builder.Services.AddInMemoryRateLimiting();
 
+            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+            var app = builder.Build();
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowFrontend");
+            app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseHttpsRedirection();
-            app.UseCors("AllowAll");
+            app.UseIpRateLimiting();
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseStaticFiles();
             app.MapControllers();
-
+            app.MapHub<NotificationHub>("/notificationHub");
             app.Run();
         }
     }

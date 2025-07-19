@@ -11,5 +11,10 @@ namespace Sani3y_.Models
         public string MessageContent { get; set; }
         public string RequestNumber { get; set; }
         public DateTime SentAt { get; set; } = DateTime.UtcNow;
+        public bool IsResolved { get; set; } = false;
+        public DateTime? ResolvedAt { get; set; }
+        public string? UserId { get; set; }
+        [ForeignKey("UserId")]
+        public AppUser? User { get; set; }
     }
 }

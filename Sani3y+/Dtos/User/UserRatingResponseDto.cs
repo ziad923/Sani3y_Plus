@@ -2,6 +2,7 @@
 {
     public class UserRatingResponseDto
     {
+        public string CraftsamanProfilePicture {  get; set; }
         public string CraftsmanFullName { get; set; }
         public string CraftsmanProfession { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -184,3 +184,10 @@ G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\MailKit.dll
 G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\MimeKit.dll
 G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+G:\C#.NET\Projects\Sani3y+\Sani3y+\obj\Debug\net8.0\Sani3y+.sourcelink.json
+G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
+G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\rateLimitSettings.json
+G:\C#.NET\Projects\Sani3y+\Sani3y+\bin\Debug\net8.0\AspNetCoreRateLimit.dll

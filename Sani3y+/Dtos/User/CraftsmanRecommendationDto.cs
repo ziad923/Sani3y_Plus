@@ -19,7 +19,7 @@ namespace Sani3y_.Dtos.User
         [RegularExpression(@"^01\d{9}$", ErrorMessage = "Invalid phone number format. It should start with 01 and have 11 digits.")]
         public string PhoneNumber { get; set; }
         [Required]
-       public string Profession { get; set; }
+        public int ProfessionId { get; set; }
 
         public string? PreviousWorkDescription { get; set; }
         public DateTime? DateTheProjectDone { get; set; }

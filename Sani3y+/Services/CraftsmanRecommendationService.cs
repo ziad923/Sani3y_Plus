@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Sani3y_.Data;
+using Sani3y_.Dtos.Admin;
 using Sani3y_.Dtos.User;
 using Sani3y_.Enums;
 using Sani3y_.Models;
@@ -8,23 +12,31 @@ namespace Sani3y_.Services
 {
     public class CraftsmanRecommendationService : ICraftsmanRecommendationService
     {
-        private readonly IUserRepo _userRepo;
-        private readonly IWebHostEnvironment _environment;
+        private readonly IRecommendationRepository _recommendationRepository;
+        private readonly IFileService _fileService;
+        private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CraftsmanRecommendationService(IUserRepo repository, IWebHostEnvironment environment)
+        public CraftsmanRecommendationService(
+            IRecommendationRepository recommendationRepository,
+            IFileService fileService,
+            AppDbContext context,
+            UserManager<AppUser> userManager)
         {
-            _userRepo = repository;
-            _environment = environment;
+            _recommendationRepository = recommendationRepository;
+            _fileService = fileService;
+            _context = context;
+            _userManager = userManager;
         }
 
-        public async Task<IEnumerable<CraftsmanRecommendation>> GetAllPendingRecommendationsAsync()
+        public async Task<IEnumerable<CraftsmanRecommendationResponseDto>> GetAllPendingRecommendationsAsync()
         {
-            return await _userRepo.GetAllPendingRecommendationsAsync();
+            return await _recommendationRepository.GetAllPendingRecommendationsAsync();
         }
 
-        public async Task<CraftsmanRecommendation> GetRecommendationByIdAsync(int id)
+        public async Task<CraftsmanRecommendationResponseDto?> GetRecommendationByIdAsync(int id)
         {
-            return await _userRepo.GetRecommendationByIdAsync(id);
+            return await _recommendationRepository.GetRecommendationByIdAsync(id);
         }
         public async Task AddRecommendationAsync(CraftsmanRecommendationDto recommendationDto, string userId)
         {
@@ -35,16 +47,14 @@ namespace Sani3y_.Services
                 Governorate = recommendationDto.Governorate,
                 Location = recommendationDto.Location,
                 PhoneNumber = recommendationDto.PhoneNumber,
-                Profession = recommendationDto.Profession,
+                ProfessionId = recommendationDto.ProfessionId,
                 PreviousWorkDescription = recommendationDto.PreviousWorkDescription,
                 DateTheProjectDone = recommendationDto.DateTheProjectDone,
                 UserId = userId,
                 Status = RecommendationStatus.Pending
             };
-
-            // ✅ File Uploads
             recommendation.PersonalPhotoPath = recommendationDto.PersonalPhoto != null
-                ? await SaveFileAsync(recommendationDto.PersonalPhoto)
+                ? await _fileService.SaveFileAsync(recommendationDto.PersonalPhoto)
                 : null;
 
             if (recommendationDto.PreviousWorkPictures != null && recommendationDto.PreviousWorkPictures.Count > 0)
@@ -52,47 +62,71 @@ namespace Sani3y_.Services
                 recommendation.PreviousWorkPicturePaths = new List<string>();
                 foreach (var file in recommendationDto.PreviousWorkPictures)
                 {
-                    recommendation.PreviousWorkPicturePaths.Add(await SaveFileAsync(file));
+                    recommendation.PreviousWorkPicturePaths.Add(await _fileService.SaveFileAsync(file));
                 }
             }
 
-            await _userRepo.AddRecommendationAsync(recommendation);
-        }
-        private async Task<string> SaveFileAsync(IFormFile file)
-        {
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            return $"/uploads/{uniqueFileName}";
+            await _recommendationRepository.AddRecommendationAsync(recommendation);
         }
         public async Task ApproveRecommendationAsync(int id)
         {
-            var recommendation = await _userRepo.GetRecommendationByIdAsync(id);
+            var recommendation = await _recommendationRepository.FindRecommendationEntityByIdAsync(id);
             if (recommendation != null)
             {
                 recommendation.Status = RecommendationStatus.Approved;
-                await _userRepo.UpdateRecommendationAsync(recommendation);
+                await _recommendationRepository.UpdateRecommendationAsync(recommendation);
             }
         }
         public async Task RejectRecommendationAsync(int id)
         {
-            var recommendation = await _userRepo.GetRecommendationByIdAsync(id);
+            var recommendation = await _recommendationRepository.FindRecommendationEntityByIdAsync(id);
             if (recommendation != null)
             {
                 recommendation.Status = RecommendationStatus.Rejected;
-                await _userRepo.UpdateRecommendationAsync(recommendation);
+                await _recommendationRepository.UpdateRecommendationAsync(recommendation);
             }
+        }
+        public async Task<List<RecommendedCraftsmanDto>> GetAllApprovedRecommendationsAsync(string userId)
+        {
+            var recommendations = await _recommendationRepository.GetAllApprovedRecommendationsAsync(userId);
+            var result = new List<RecommendedCraftsmanDto>();
+
+            foreach (var rec in recommendations)
+            {
+                // Check if the recommended craftsman has become a real craftsman (AppUser)
+                var craftsmanUser = await _userManager.Users
+                    .FirstOrDefaultAsync(u => u.PhoneNumber == rec.PhoneNumber && u.Role == "Craftsman");
+
+                double avgRating = 0;
+                bool isTrusted = false;
+                string craftsmanId = rec.Id.ToString(); // fallback: recommendation id
+
+                if (craftsmanUser != null)
+                {
+                    // Calculate average rating for the craftsman
+                    var ratings = await _context.Ratings
+                        .Where(r => r.CraftsmanId == craftsmanUser.Id)
+                        .ToListAsync();
+
+                    avgRating = ratings.Any() ? ratings.Average(r => r.Stars) : 0;
+                    isTrusted = craftsmanUser.IsTrusted ?? false;
+                    craftsmanId = craftsmanUser.Id; // real craftsman AppUser Id
+                }
+
+                result.Add(new RecommendedCraftsmanDto
+                {
+                    CraftsmanId = craftsmanId,
+                    ProfileImage = rec.PersonalPhotoPath,
+                    CraftsmanFullName = $"{rec.CraftsmanFirstName} {rec.CraftsmanLastName}",
+                    Profession = rec.Profession?.Name,
+                    Governate = rec.Governorate,
+                    Location = rec.Location,
+                    AvgRating = avgRating,
+                    isTrusted = isTrusted
+                });
+            }
+
+            return result;
         }
     }
 }

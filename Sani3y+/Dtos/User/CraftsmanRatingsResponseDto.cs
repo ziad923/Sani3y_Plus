@@ -3,6 +3,8 @@
     public class CraftsmanRatingsResponseDto
     {
         public double AverageRating { get; set; }
+        public List<RatingDistributionDto> RatingDistribution { get; set; }
         public List<CraftsmanRatingDto> Ratings { get; set; }
+      
     }
 }
